@@ -12,6 +12,10 @@ public sealed record Money : ValueObject
         "Money.CurrencyMismatch",
         "Monetary amounts must share the same currency.");
 
+    public static readonly Error NegativeAmount = Error.Validation(
+        "Money.NegativeAmount",
+        "A monetary amount cannot be negative.");
+
     public decimal Amount { get; }
 
     public Currency Currency { get; }
@@ -27,6 +31,11 @@ public sealed record Money : ValueObject
         if (currency is null)
         {
             return Result.Failure<Money>(CurrencyRequired);
+        }
+
+        if (amount < 0m)
+        {
+            return Result.Failure<Money>(NegativeAmount);
         }
 
         return new Money(amount, currency);

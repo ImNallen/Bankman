@@ -98,46 +98,37 @@ public class TransactionTests
         Transaction.TransferIn(Account, null!, Transfer).Error.ShouldBe(TransactionErrors.AmountRequired);
     }
 
-    [Theory]
-    [InlineData(0)]
-    [InlineData(-0.01)]
-    [InlineData(-100)]
-    public void Deposit_should_fail_when_amount_not_positive(decimal value)
+    [Fact]
+    public void Deposit_should_fail_when_amount_is_zero()
     {
-        Result<Transaction> result = Transaction.Deposit(Account, Amount(value));
+        Result<Transaction> result = Transaction.Deposit(Account, Amount(0m));
 
         result.IsFailure.ShouldBeTrue();
         result.Error.ShouldBe(TransactionErrors.AmountNotPositive);
     }
 
-    [Theory]
-    [InlineData(0)]
-    [InlineData(-1)]
-    public void Withdrawal_should_fail_when_amount_not_positive(decimal value)
+    [Fact]
+    public void Withdrawal_should_fail_when_amount_is_zero()
     {
-        Result<Transaction> result = Transaction.Withdrawal(Account, Amount(value));
+        Result<Transaction> result = Transaction.Withdrawal(Account, Amount(0m));
 
         result.IsFailure.ShouldBeTrue();
         result.Error.ShouldBe(TransactionErrors.AmountNotPositive);
     }
 
-    [Theory]
-    [InlineData(0)]
-    [InlineData(-1)]
-    public void TransferOut_should_fail_when_amount_not_positive(decimal value)
+    [Fact]
+    public void TransferOut_should_fail_when_amount_is_zero()
     {
-        Result<Transaction> result = Transaction.TransferOut(Account, Amount(value), Transfer);
+        Result<Transaction> result = Transaction.TransferOut(Account, Amount(0m), Transfer);
 
         result.IsFailure.ShouldBeTrue();
         result.Error.ShouldBe(TransactionErrors.AmountNotPositive);
     }
 
-    [Theory]
-    [InlineData(0)]
-    [InlineData(-1)]
-    public void TransferIn_should_fail_when_amount_not_positive(decimal value)
+    [Fact]
+    public void TransferIn_should_fail_when_amount_is_zero()
     {
-        Result<Transaction> result = Transaction.TransferIn(Account, Amount(value), Transfer);
+        Result<Transaction> result = Transaction.TransferIn(Account, Amount(0m), Transfer);
 
         result.IsFailure.ShouldBeTrue();
         result.Error.ShouldBe(TransactionErrors.AmountNotPositive);

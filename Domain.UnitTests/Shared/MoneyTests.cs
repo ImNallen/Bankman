@@ -28,6 +28,28 @@ public class MoneyTests
         result.Error.ShouldBe(Money.CurrencyRequired);
     }
 
+    [Theory]
+    [InlineData(-0.01)]
+    [InlineData(-1)]
+    [InlineData(-100)]
+    public void Create_should_fail_when_amount_is_negative(decimal amount)
+    {
+        Result<Money> result = Money.Create(amount, Usd);
+
+        result.IsFailure.ShouldBeTrue();
+        result.Error.ShouldBe(Money.NegativeAmount);
+    }
+
+    [Fact]
+    public void Create_should_succeed_when_amount_is_zero()
+    {
+        Result<Money> result = Money.Create(0m, Usd);
+
+        result.IsSuccess.ShouldBeTrue();
+        result.Value.Amount.ShouldBe(0m);
+        result.Value.Currency.ShouldBe(Usd);
+    }
+
     [Fact]
     public void Zero_should_create_zero_amount_money_in_currency()
     {

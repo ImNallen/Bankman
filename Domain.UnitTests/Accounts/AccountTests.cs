@@ -120,12 +120,11 @@ public class AccountTests
     }
 
     [Fact]
-    public void Credit_should_fail_when_amount_is_zero_or_negative()
+    public void Credit_should_fail_when_amount_is_zero()
     {
         Account account = OpenActive();
 
         account.Credit(Money(0m)).Error.ShouldBe(AccountErrors.AmountMustBePositive);
-        account.Credit(Money(-5m)).Error.ShouldBe(AccountErrors.AmountMustBePositive);
     }
 
     [Fact]
@@ -193,13 +192,12 @@ public class AccountTests
     }
 
     [Fact]
-    public void Debit_should_fail_when_amount_is_zero_or_negative()
+    public void Debit_should_fail_when_amount_is_zero()
     {
         Account account = OpenActive();
         account.Credit(Money(100m));
 
         account.Debit(Money(0m)).Error.ShouldBe(AccountErrors.AmountMustBePositive);
-        account.Debit(Money(-5m)).Error.ShouldBe(AccountErrors.AmountMustBePositive);
     }
 
     [Fact]
