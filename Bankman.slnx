@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path="compose.yaml" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="Api/Api.csproj" />
+    <Project Path="Application/Application.csproj" />
+    <Project Path="Domain/Domain.csproj" />
+    <Project Path="Infrastructure/Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="ArchitectureTests/ArchitectureTests.csproj" />
+    <Project Path="Domain.UnitTests/Domain.UnitTests.csproj" />
+  </Folder>
+</Solution>
