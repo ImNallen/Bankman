@@ -23,4 +23,8 @@ public static class UserErrors
     public static readonly Error EmailAlreadyInUse = Error.Conflict(
         "User.EmailAlreadyInUse",
         "The email is already in use by another user.");
+
+    public static readonly Error IncorrectPassword = Error.Unauthorized(
+        "User.IncorrectPassword",
+        "The current password is incorrect.");
 }

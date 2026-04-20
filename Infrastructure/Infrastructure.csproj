@@ -11,5 +11,6 @@
     </PackageReference>
     <PackageReference Include="Dapper" />
     <PackageReference Include="MediatR" />
+    <PackageReference Include="BCrypt.Net-Next" />
   </ItemGroup>
 </Project>

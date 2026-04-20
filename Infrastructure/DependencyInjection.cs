@@ -1,8 +1,12 @@
+using Application;
 using Application.Abstractions;
+using Application.Abstractions.Authentication;
+using Application.Abstractions.Data;
 using Domain.Abstractions;
 using Domain.Accounts;
 using Domain.Transactions;
 using Domain.Users;
+using Infrastructure.Authentication;
 using Infrastructure.Events;
 using Infrastructure.Jobs;
 using Infrastructure.Persistence;
@@ -22,10 +26,7 @@ public static class DependencyInjection
         string connectionString = configuration.GetConnectionString("DefaultConnection")
             ?? throw new InvalidOperationException("Connection string 'DefaultConnection' is not configured.");
 
-        services.AddMediatR(cfg =>
-            cfg.RegisterServicesFromAssemblies(
-                typeof(Application.IMarker).Assembly,
-                typeof(ApplicationDbContext).Assembly));
+        services.AddApplication();
 
         services.AddScoped<IDomainEventDispatcher, DomainEventDispatcher>();
 
@@ -36,6 +37,9 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IAccountRepository, AccountRepository>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
+
+        services.AddSingleton<ISqlConnectionFactory>(_ => new SqlConnectionFactory(connectionString));
+        services.AddSingleton<IPasswordHasher, PasswordHasher>();
 
         services.AddHostedService<ProcessOutboxMessagesJob>();
 
