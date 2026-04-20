@@ -16,6 +16,10 @@ public sealed record PersonName : ValueObject
 
     public string LastName { get; }
 
+    private PersonName()
+    {
+    }
+
     private PersonName(string firstName, string lastName)
     {
         FirstName = firstName;

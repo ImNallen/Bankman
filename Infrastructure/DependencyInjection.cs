@@ -4,6 +4,7 @@ using Domain.Accounts;
 using Domain.Transactions;
 using Domain.Users;
 using Infrastructure.Events;
+using Infrastructure.Jobs;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,8 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IAccountRepository, AccountRepository>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
+
+        services.AddHostedService<ProcessOutboxMessagesJob>();
 
         return services;
     }

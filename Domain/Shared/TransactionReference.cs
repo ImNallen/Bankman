@@ -16,6 +16,10 @@ public sealed record TransactionReference : ValueObject
 
     public string Value { get; }
 
+    private TransactionReference()
+    {
+    }
+
     private TransactionReference(string value)
     {
         Value = value;

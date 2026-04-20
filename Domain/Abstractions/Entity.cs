@@ -9,6 +9,11 @@ public abstract class Entity<TId> where TId : notnull
         Id = id;
     }
 
+    protected Entity()
+    {
+        Id = default!;
+    }
+
     public override bool Equals(object? obj)
     {
         if (obj is not Entity<TId> other)

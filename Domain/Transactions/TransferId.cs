@@ -9,6 +9,8 @@ public readonly record struct TransferId
         Value = value;
     }
 
+    public bool IsEmpty => Value == Guid.Empty;
+
     public static TransferId New() => new(Guid.NewGuid());
 
     public static TransferId From(Guid value) => new(value);

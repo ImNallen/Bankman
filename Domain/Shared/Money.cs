@@ -20,6 +20,10 @@ public sealed record Money : ValueObject
 
     public Currency Currency { get; }
 
+    private Money()
+    {
+    }
+
     private Money(decimal amount, Currency currency)
     {
         Amount = amount;
@@ -74,7 +78,14 @@ public sealed record Money : ValueObject
             return Result.Failure<Money>(CurrencyMismatch);
         }
 
-        return new Money(Amount - other.Amount, Currency);
+        decimal result = Amount - other.Amount;
+
+        if (result < 0m)
+        {
+            return Result.Failure<Money>(NegativeAmount);
+        }
+
+        return new Money(result, Currency);
     }
 
     public override string ToString() => $"{Amount} {Currency.Code}";

@@ -4,6 +4,10 @@ namespace Domain.Transactions;
 
 public static class TransactionErrors
 {
+    public static readonly Error AccountIdRequired = Error.Validation(
+        "Transaction.AccountIdRequired",
+        "An account id is required for a transaction.");
+
     public static readonly Error AmountRequired = Error.Validation(
         "Transaction.AmountRequired",
         "Transaction amount is required.");

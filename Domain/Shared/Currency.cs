@@ -14,6 +14,10 @@ public sealed record Currency : ValueObject
 
     public string Code { get; }
 
+    private Currency()
+    {
+    }
+
     private Currency(string code)
     {
         Code = code;

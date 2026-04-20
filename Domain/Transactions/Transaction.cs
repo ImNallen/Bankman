@@ -7,6 +7,10 @@ namespace Domain.Transactions;
 
 public sealed class Transaction : AggregateRoot<TransactionId>
 {
+    private Transaction()
+    {
+    }
+
     private Transaction(
         TransactionId id,
         AccountId accountId,
@@ -69,6 +73,11 @@ public sealed class Transaction : AggregateRoot<TransactionId>
         TransferId? transferId,
         TransactionReference? reference)
     {
+        if (accountId.IsEmpty)
+        {
+            return Result.Failure<Transaction>(TransactionErrors.AccountIdRequired);
+        }
+
         if (amount is null)
         {
             return Result.Failure<Transaction>(TransactionErrors.AmountRequired);
@@ -81,7 +90,7 @@ public sealed class Transaction : AggregateRoot<TransactionId>
 
         bool isTransfer = type is TransactionType.TransferIn or TransactionType.TransferOut;
 
-        if (isTransfer && (transferId is null || transferId.Value.Value == Guid.Empty))
+        if (isTransfer && (transferId is null || transferId.Value.IsEmpty))
         {
             return Result.Failure<Transaction>(TransactionErrors.TransferIdRequired);
         }

@@ -10,6 +10,10 @@ public sealed record PasswordHash : ValueObject
 
     public string Value { get; }
 
+    private PasswordHash()
+    {
+    }
+
     private PasswordHash(string value)
     {
         Value = value;
@@ -25,5 +29,5 @@ public sealed record PasswordHash : ValueObject
         return new PasswordHash(value);
     }
 
-    public override string ToString() => Value;
+    public override string ToString() => "***";
 }

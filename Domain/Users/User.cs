@@ -6,6 +6,10 @@ namespace Domain.Users;
 
 public sealed class User : AggregateRoot<UserId>
 {
+    private User()
+    {
+    }
+
     private User(
         UserId id,
         Email email,
@@ -65,6 +69,7 @@ public sealed class User : AggregateRoot<UserId>
 
         Email = email;
         UpdatedAt = DateTime.UtcNow;
+        RaiseDomainEvent(new UserEmailChangedDomainEvent(Id, email, UpdatedAt));
         return Result.Success();
     }
 
@@ -77,6 +82,7 @@ public sealed class User : AggregateRoot<UserId>
 
         PasswordHash = passwordHash;
         UpdatedAt = DateTime.UtcNow;
+        RaiseDomainEvent(new UserPasswordChangedDomainEvent(Id, UpdatedAt));
         return Result.Success();
     }
 

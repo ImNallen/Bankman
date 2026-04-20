@@ -231,6 +231,7 @@ public class AccountTests
     {
         Account account = OpenActive();
         account.Credit(Money(100m));
+        account.Debit(Money(100m));
         account.Close();
 
         Result result = account.Debit(Money(10m));

@@ -47,4 +47,8 @@ public static class AccountErrors
     public static readonly Error AlreadyClosed = Error.Conflict(
         "Account.AlreadyClosed",
         "The account is already closed.");
+
+    public static readonly Error HasRemainingBalance = Error.Conflict(
+        "Account.HasRemainingBalance",
+        "The account cannot be closed while it has a remaining balance.");
 }

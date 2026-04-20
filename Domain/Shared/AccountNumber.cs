@@ -36,6 +36,10 @@ public sealed record AccountNumber : ValueObject
 
     public string Value { get; }
 
+    private AccountNumber()
+    {
+    }
+
     private AccountNumber(string value)
     {
         Value = value;
@@ -46,6 +50,11 @@ public sealed record AccountNumber : ValueObject
         if (string.IsNullOrWhiteSpace(value))
         {
             return Result.Failure<AccountNumber>(Empty);
+        }
+
+        if (value.Length > 50)
+        {
+            return Result.Failure<AccountNumber>(Invalid);
         }
 
         string normalized = Normalize(value);

@@ -9,6 +9,8 @@ public readonly record struct AccountId
         Value = value;
     }
 
+    public bool IsEmpty => Value == Guid.Empty;
+
     public static AccountId New() => new(Guid.NewGuid());
 
     public static AccountId From(Guid value) => new(value);

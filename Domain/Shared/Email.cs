@@ -15,6 +15,10 @@ public sealed record Email : ValueObject
 
     public string Value { get; }
 
+    private Email()
+    {
+    }
+
     private Email(string value)
     {
         Value = value;

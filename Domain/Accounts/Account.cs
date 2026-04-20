@@ -7,6 +7,10 @@ namespace Domain.Accounts;
 
 public sealed class Account : AggregateRoot<AccountId>
 {
+    private Account()
+    {
+    }
+
     private Account(
         AccountId id,
         UserId ownerId,
@@ -126,6 +130,7 @@ public sealed class Account : AggregateRoot<AccountId>
         }
 
         Status = AccountStatus.Frozen;
+        RaiseDomainEvent(new AccountFrozenDomainEvent(Id, DateTime.UtcNow));
         return Result.Success();
     }
 
@@ -142,6 +147,7 @@ public sealed class Account : AggregateRoot<AccountId>
         }
 
         Status = AccountStatus.Active;
+        RaiseDomainEvent(new AccountUnfrozenDomainEvent(Id, DateTime.UtcNow));
         return Result.Success();
     }
 
@@ -150,6 +156,11 @@ public sealed class Account : AggregateRoot<AccountId>
         if (Status == AccountStatus.Closed)
         {
             return Result.Failure(AccountErrors.AlreadyClosed);
+        }
+
+        if (Balance.Amount != 0m)
+        {
+            return Result.Failure(AccountErrors.HasRemainingBalance);
         }
 
         DateTime closedAt = DateTime.UtcNow;

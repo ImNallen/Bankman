@@ -1,5 +1,3 @@
-using System.Data.Common;
-using Dapper;
 using Domain.Shared;
 using Domain.Users;
 using Infrastructure.Persistence;
@@ -35,30 +33,7 @@ internal sealed class UserRepository : IUserRepository
         return Task.CompletedTask;
     }
 
-    public async Task<User?> GetByEmailAsync(Email email, CancellationToken cancellationToken = default)
-    {
-        DbConnection connection = _context.Database.GetDbConnection();
-        bool wasOpen = connection.State == System.Data.ConnectionState.Open;
-
-        if (!wasOpen)
-        {
-            await connection.OpenAsync(cancellationToken);
-        }
-
-        try
-        {
-            Guid? id = await connection.QuerySingleOrDefaultAsync<Guid?>(
-                "SELECT id FROM users WHERE email = @Email",
-                new { Email = email.Value });
-
-            return id is null ? null : await GetByIdAsync(UserId.From(id.Value), cancellationToken);
-        }
-        finally
-        {
-            if (!wasOpen)
-            {
-                await connection.CloseAsync();
-            }
-        }
-    }
+    public async Task<User?> GetByEmailAsync(Email email, CancellationToken cancellationToken = default) =>
+        await _context.Users
+            .FirstOrDefaultAsync(u => u.Email.Value == email.Value, cancellationToken);
 }
